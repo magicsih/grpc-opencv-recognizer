@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.github.magicsih.recognizer";
+option java_outer_classname = "RecognizerProto";
+
+package recognizer;
+
+service Matcher {
+  rpc MatchTemplate (MatchTemplateRequest) returns (MatchTemplateReply) {}
+}
+
+message MatchTemplateRequest {
+  bytes target = 1;
+  bytes template = 2;
+  int32 maxNumOfMatches = 3;
+}
+
+message MatchTemplateReply {
+  double featureRate = 1;
+  double colorRate = 2;
+  double multiply = 3;
+  bool success = 4;
+  repeated FeatureShape featureShapes = 5;
+  repeated string analysisCode = 6;
+}
+
+message FeatureShape {
+  double x = 1;
+  double y = 2;
+  double w = 3;
+  double h = 4;
+  double rate = 5;
+  bool success = 6;
+}

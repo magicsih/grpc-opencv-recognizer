@@ -1,0 +1,4 @@
+/.vscode
+*.o
+*.pb.*
+recognizer_async_server
