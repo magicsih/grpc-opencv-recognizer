@@ -1,3 +1,6 @@
 *.o
 *.pb.*
 recognizer_async_server
+recognizer_client
+tessdata/
+testset/

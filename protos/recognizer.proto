@@ -8,6 +8,15 @@ package recognizer;
 
 service Matcher {
   rpc MatchTemplate (MatchTemplateRequest) returns (MatchTemplateReply) {}
+  rpc RecognizeOpticalCharacters (OcrRequest) returns (OcrReply) {}
+}
+
+message OcrRequest {
+  bytes image = 1;
+} 
+
+message OcrReply {
+  string result = 1;
 }
 
 message MatchTemplateRequest {

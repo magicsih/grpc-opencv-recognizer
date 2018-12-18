@@ -1,16 +1,20 @@
 HOST_SYSTEM = $(shell uname | cut -f 1 -d_)
 SYSTEM ?= $(HOST_SYSTEM)
 CXX = g++
-CPPFLAGS += `pkg-config --cflags protobuf grpc`
+CPPFLAGS += `pkg-config --cflags protobuf grpc tesseract`
 CXXFLAGS += -std=c++11
 ifeq ($(SYSTEM),Darwin)
 LDFLAGS += -L/usr/local/lib `pkg-config --libs protobuf grpc++ grpc`\
            -lgrpc++_reflection\
-           -ldl
+           -ldl\
+		   -llept\
+		   -ltesseract
 else
 LDFLAGS += -L/usr/local/lib `pkg-config --libs protobuf grpc++ grpc`\
            -Wl,--no-as-needed -lgrpc++_reflection -Wl,--as-needed\
-           -ldl
+           -ldl\
+		   -llept\
+		   -ltesseract
 endif
 PROTOC = protoc
 GRPC_CPP_PLUGIN = grpc_cpp_plugin
@@ -20,12 +24,15 @@ PROTOS_PATH = ./protos
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check recognizer_async_server
+all: system-check recognizer_async_server recognizer_client
 
 debug: CXXFLAGS += -DDEBUG -g
-debug: recognizer_async_server
+debug: recognizer_async_server recognizer_client
 
 recognizer_async_server: recognizer.pb.o recognizer.grpc.pb.o recognizer_async_server.o
+	$(CXX) $^ $(LDFLAGS) -o $@
+
+recognizer_client: recognizer.pb.o recognizer.grpc.pb.o recognizer_client.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PRECIOUS: %.grpc.pb.cc
@@ -37,7 +44,7 @@ recognizer_async_server: recognizer.pb.o recognizer.grpc.pb.o recognizer_async_s
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h recognizer_async_server
+	rm -f *.o *.pb.cc *.pb.h recognizer_async_server recognizer_client
 
 
 # The following is to test your system and ensure a smoother experience.
