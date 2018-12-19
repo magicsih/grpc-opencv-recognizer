@@ -32,10 +32,11 @@ class MatcherClient {
         stub_ ->MatchTemplate(&context, request, &reply);
     }
 
-    std::string RecognizeOpticalCharacters() {
+    //void RecognizeOpticalCharacters(::grpc::ClientContext* context, ::recognizer::OcrReply* response, ::grpc::experimental::ClientWriteReactor< ::recognizer::OcrRequest>* reactor) 
+    std::string RecognizeOpticalCharacters(std::string filePath) {
         OcrRequest request;
 
-        std::ifstream t("testset/12932_ruby.png");
+        std::ifstream t(filePath);
         std::string str((std::istreambuf_iterator<char>(t)),
                  std::istreambuf_iterator<char>());
         t.close();
@@ -44,6 +45,7 @@ class MatcherClient {
 
         OcrReply reply;
         ClientContext context;
+        
         Status status = stub_->RecognizeOpticalCharacters(&context, request, &reply);
         
         if (status.ok()) {
@@ -62,6 +64,7 @@ class MatcherClient {
 
 int main(int argc, char** argv) {
     MatcherClient matcher(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()));
-    std::string result = matcher.RecognizeOpticalCharacters();
+    std::cout << "Input file path:" << argv[1] << std::endl;
+    std::string result = matcher.RecognizeOpticalCharacters(argv[1]);
     std::cout << "OCR RESULT:" << result << std::endl;
 }

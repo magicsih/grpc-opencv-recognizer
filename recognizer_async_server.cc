@@ -37,7 +37,10 @@ class MatcherServiceImpl final : public Matcher::Service {
 
     const l_uint8 * data = reinterpret_cast<const l_uint8 *>(request->image().c_str());
     Pix *image = pixReadMem(data, request->image().size());
-
+    if(!image) {
+      return Status::CANCELLED;
+    }
+    
     tesseractApi->SetImage(image);
 
     char *outText = tesseractApi->GetUTF8Text();
