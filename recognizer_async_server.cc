@@ -27,11 +27,6 @@ class MatcherServiceImpl final : public Matcher::Service {
   private:
     tesseract::TessBaseAPI *tesseractApi;
 
-  // ~MatcherServiceImpl() {
-  //   std::cout << "Destructing MatcherServiceImpl" << std::endl;
-  //   tesseractApi->End();
-  // }
-
   Status RecognizeOpticalCharacters(ServerContext* context, const OcrRequest* request, OcrReply* reply) override {
     std::cout << "RecognizeOpticalCharacters..." << std::endl;
 
@@ -40,7 +35,7 @@ class MatcherServiceImpl final : public Matcher::Service {
     if(!image) {
       return Status::CANCELLED;
     }
-    
+
     tesseractApi->SetImage(image);
 
     char *outText = tesseractApi->GetUTF8Text();
@@ -91,6 +86,5 @@ void RunServer() {
 
 int main(int argc, char** argv) {
   RunServer();
-
   return 0;
 }
