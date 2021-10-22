@@ -30,6 +30,7 @@ wget https://github.com/tesseract-ocr/tessdata/blob/main/eng.traineddata?raw=tru
 Put the file tessdata/ or set TESSDATA_PREFIX environment variable.
 
 # Run
+![target](https://github.com/magicsih/grpc-opencv-recognizer/blob/master/img/hey1219.png)
 ```bash
 ./recognizer_async_server
 Tesseract Base API Load Successfully
