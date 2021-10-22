@@ -1,5 +1,5 @@
 FROM ubuntu
-LABEL maintainer="Ilhwan Seo <sih@netmarble.com>"
+LABEL maintainer="Ilhwan Seo <wellknowngeek@gmail.com>"
 
 RUN apt-get update
 RUN apt-get install -y \
