@@ -43,3 +43,5 @@ OCR RESULT:HEY
 1219
 ```
 
+# License
+This project is licensed under the terms of the MIT license.
